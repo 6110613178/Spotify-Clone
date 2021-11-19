@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20855D2A2747FFCA00E3BFB5 /* Say So [JP ver.].mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 20855D272747FFC900E3BFB5 /* Say So [JP ver.].mp3 */; };
+		20855D2B2747FFCA00E3BFB5 /* The Everlasting.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 20855D282747FFC900E3BFB5 /* The Everlasting.mp3 */; };
+		20855D2C2747FFCA00E3BFB5 /* Departures.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 20855D292747FFCA00E3BFB5 /* Departures.mp3 */; };
 		6142898A274651A2004EC0F7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 61428989274651A2004EC0F7 /* FirebaseAuth */; };
 		6142898C274651A2004EC0F7 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 6142898B274651A2004EC0F7 /* FirebaseDatabase */; };
 		6142898E274651A2004EC0F7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6142898D274651A2004EC0F7 /* FirebaseFirestore */; };
@@ -33,6 +36,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		20855D272747FFC900E3BFB5 /* Say So [JP ver.].mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Say So [JP ver.].mp3"; sourceTree = "<group>"; };
+		20855D282747FFC900E3BFB5 /* The Everlasting.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "The Everlasting.mp3"; sourceTree = "<group>"; };
+		20855D292747FFCA00E3BFB5 /* Departures.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Departures.mp3; sourceTree = "<group>"; };
 		61428995274654C9004EC0F7 /* RegisterPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPage.swift; sourceTree = "<group>"; };
 		6142899727466263004EC0F7 /* SignInPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInPage.swift; sourceTree = "<group>"; };
 		61428999274679DC004EC0F7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -71,6 +77,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		20855D262747FFB100E3BFB5 /* Music */ = {
+			isa = PBXGroup;
+			children = (
+				20855D292747FFCA00E3BFB5 /* Departures.mp3 */,
+				20855D272747FFC900E3BFB5 /* Say So [JP ver.].mp3 */,
+				20855D282747FFC900E3BFB5 /* The Everlasting.mp3 */,
+			);
+			path = Music;
+			sourceTree = "<group>";
+		};
 		6142898227464E8C004EC0F7 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -186,6 +202,7 @@
 		8845E6C525457534001D0F37 /* SpotifyClone */ = {
 			isa = PBXGroup;
 			children = (
+				20855D262747FFB100E3BFB5 /* Music */,
 				614289A12746CCFD004EC0F7 /* Model */,
 				6142899B27467B09004EC0F7 /* ViewModel */,
 				6142898227464E8C004EC0F7 /* View */,
@@ -276,9 +293,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20855D2C2747FFCA00E3BFB5 /* Departures.mp3 in Resources */,
 				883410D3256A6B75008A96E1 /* Launch Screen.storyboard in Resources */,
 				6142899A274679DC004EC0F7 /* GoogleService-Info.plist in Resources */,
+				20855D2B2747FFCA00E3BFB5 /* The Everlasting.mp3 in Resources */,
 				8845E6CE2545753B001D0F37 /* Preview Assets.xcassets in Resources */,
+				20855D2A2747FFCA00E3BFB5 /* Say So [JP ver.].mp3 in Resources */,
 				8845E6CB2545753B001D0F37 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

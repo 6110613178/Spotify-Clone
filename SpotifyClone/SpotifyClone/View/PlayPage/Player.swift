@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct Player: View {
     @Environment(\.presentationMode) var presentationMode
@@ -17,6 +18,18 @@ struct Player: View {
     @State var devices = true
     @State var blur = false
 
+    @State var data: Data = .init(count: 0)
+    @State var title = ""
+    @State var artist = ""
+    @State var player : AVAudioPlayer!
+    @State var playing = false
+    @State var width : CGFloat = 0
+    @State var songs = ["The Everlasting", "Say So [JP ver.]", "Departures"]
+    @State var current = 0
+    @State var finish = false
+    @State var del = AVdelegate()
+    @State var timeLeft = "0:00"
+    @State var timeRight = ""
 
     var albumImage : String
     var songName : String
@@ -38,6 +51,10 @@ struct Player: View {
                 HStack{
                     Button(action: {
                         presentationMode.wrappedValue.dismiss()
+                        
+                        self.player.pause()
+                        self.playing = false
+                        
                     }, label: {
                         Image(systemName: "chevron.down").font(.body)
                             .foregroundColor(.white)
@@ -57,17 +74,20 @@ struct Player: View {
                         }
                 }
                 Spacer()
-                Image("\(albumImage)").resizable()
-                    
-                    .padding(.all, 10)
+                
+                Image(uiImage: self.data.count == 0 ? UIImage(named: "Spotify")! : UIImage(data: self.data)!)
+                    .resizable()
+                    .padding([.leading, .trailing], 20)
+                    .padding([.top, .bottom], 25)
+                
                 VStack{
                 HStack{
                     VStack(alignment: .leading){
-                        Text("Ceviz Ağacı")
+                        Text(self.artist)
                             .foregroundColor(.white)
                             .font(.title2)
                             .bold().padding(.leading , 3)
-                        Text("Cem Karaca")
+                        Text(self.artist)
                             .padding([.leading , .top] , 3)
                             .foregroundColor(.white).opacity(0.8)
                             .font(.callout)
@@ -80,17 +100,55 @@ struct Player: View {
                             .font(.system(size: 20)).animation(.default)
                     })
                 }.padding([.leading,.trailing,.top],20)
-                    Slider(value: $time, in: 0...70 )
-                        .accentColor(.white)
-                        .padding([.trailing,.leading , .bottom] , 20)
+                    
+                    ZStack(alignment: .leading) {
+                        
+                        Capsule().fill(Color.black.opacity(0.08)).frame(height: 8)
+                        
+                        Capsule().fill(Color.white).frame(width: self.width, height: 8)
+                            .gesture(DragGesture()
+                                        .onChanged({ (value) in
+                                            
+                                            let x = value.location.x
+                                            
+                                            self.width = x
+                                            
+                                        }).onEnded({ (value) in
+                                            
+                                            let x = value.location.x
+                                            
+                                            let screen = UIScreen.main.bounds.width - 30
+                                            
+                                            let percent = x / screen
+                                            
+                                            self.player.currentTime = Double(percent) * self.player.duration
+                                        })
+                            )
+                    }
+                    .padding([.trailing,.leading] , 20)
+                    .padding(.bottom, 30)
+                    
                     HStack{
-                        Text("0:00").foregroundColor(.white).offset(x: 20, y: -30)
+                        Text(self.timeLeft).foregroundColor(.white).offset(x: 20, y: -30)
                         Spacer()
-                        Text("-3:41").foregroundColor(.white).offset(x: -20, y: -30)
+                        Text(self.timeRight).foregroundColor(.white).offset(x: -20, y: -30)
+                        
                     }
                     
                     HStack{
                         Button(action: {
+                            
+                            if self.current > 0{
+                                
+                                self.current -= 1
+                                
+                                self.ChangeSongs()
+                            }
+                            else {
+                                
+                                self.ChangeSongs()
+                            }
+                            
                         }, label: {
                             Image(systemName: "backward.end.fill").resizable()
                                 .frame(width: 20, height: 20, alignment: .center)
@@ -99,14 +157,34 @@ struct Player: View {
                         })
                         
                         Button(action: {
-                            play.toggle()
+                            
+                            if self.player.isPlaying{
+                                
+                                self.player.pause()
+                                self.playing = false
+                            }
+                            else{
+                                
+                                self.player.play()
+                                self.playing = true
+                            }
+                            
                         }, label: {
-                            Image(systemName: play ? "play.circle.fill" : "pause.circle.fill").resizable()
+                            Image(systemName: self.playing && !self.finish ? "pause.circle.fill" : "play.circle.fill").resizable()
                                 .frame(width: 60, height: 60, alignment: .center)
                                 .foregroundColor(.white)
+                            
                         }).padding([.trailing,.leading], 50)
                         
                         Button(action: {
+                            
+                            if self.songs.count - 1 != self.current{
+                                
+                                self.current += 1
+                                
+                                self.ChangeSongs()
+                            }
+                            
                         }, label: {
                             Image(systemName: "forward.end.fill").resizable()
                                 .frame(width: 20, height: 20, alignment: .center)
@@ -119,6 +197,50 @@ struct Player: View {
                     Image(systemName: "text.badge.plus").foregroundColor(.white)
                 }.padding()
             }.blur(radius: blur ? 30.0 : 0)
+            
+            .onAppear {
+                
+                let url = Bundle.main.path(forResource: "\(songName)", ofType: "mp3")
+                
+                let songIndex = songs.firstIndex(of: "\(songName)")
+                let songIndexInt = songIndex!
+                
+                for _ in 0..<songIndexInt {
+                    
+                    songs.append(songs[0])
+                    songs.remove(at: 0)
+                }
+                
+                self.player = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: url!))
+                
+                self.player.delegate = self.del
+                
+                self.player.prepareToPlay()
+                self.getData()
+                
+                self.findTimeRight(delay: 1)
+                
+                Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (_) in
+                    
+                    if self.player.isPlaying{
+                        
+                        self.findTimeLeft()
+                        self.findTimeRight(delay: 0)
+                        
+                        let screen = UIScreen.main.bounds.width - 40
+                        
+                        let value = self.player.currentTime / self.player.duration
+                        
+                        self.width = screen * CGFloat(value)
+                    }
+                }
+                
+                NotificationCenter.default.addObserver(forName: NSNotification.Name("Finish"), object: nil, queue: .main) { (_) in
+                    
+                    self.finish = true
+                }
+            }
+            
             if blur {
                 blurPage
             }
@@ -130,16 +252,15 @@ struct Player: View {
             VStack{
                 ScrollView(.vertical){
                     VStack{
-                        Image(albumImage)
+                        
+                        Image(uiImage: self.data.count == 0 ? UIImage(named: "Spotify")! : UIImage(data: self.data)!)
                             .resizable()
                             .frame(width: 160, height: 160)
                             .padding()
-                        
-                        Text("Ceviz Ağacı")
+                        Text(self.artist)
                             .foregroundColor(.white)
                             .bold()
-                        
-                        Text(songName).padding([.top, .bottom] , 3)
+                        Text(self.title).padding([.top, .bottom] , 3)
                             .foregroundColor(.white)
                             .opacity(0.6)
                             .font(.headline)
@@ -165,6 +286,84 @@ struct Player: View {
             }
         }
     }
+    
+    func getData(){
+        
+        let asset = AVAsset(url: self.player.url!)
+        
+        for i in asset.commonMetadata{
+            
+            if i.commonKey?.rawValue == "artwork" {
+                
+                let data = i.value as! Data
+                self.data = data
+            }
+            
+            if i.commonKey?.rawValue == "title" {
+                
+                let title = i.value as! String
+                self.title = title
+            }
+            
+            if i.commonKey?.rawValue == "artist" {
+                
+                let artist = i.value as! String
+                self.artist = artist
+            }
+        }
+    }
+    
+    func ChangeSongs(){
+        
+        let url = Bundle.main.path(forResource: self.songs[self.current], ofType: "mp3")
+        
+        self.player = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: url!))
+        
+        self.player.delegate = self.del
+        
+        self.data = .init(count: 0)
+        
+        self.title = ""
+        
+        self.player.prepareToPlay()
+        self.getData()
+        
+        self.playing = true
+        
+        self.timeLeft = "0:00"
+        
+        self.findTimeRight(delay: 1)
+        
+        self.finish = false
+        
+        self.player.play()
+        
+    }
+    
+    func findTimeLeft() {
+        let forwardMinute = Int(self.player.currentTime + 1) / 60
+        let forwardSecond = Int(self.player.currentTime + 1) % 60
+        
+        if(forwardSecond < 10) {
+            self.timeLeft = String(format: "%d:0%d", forwardMinute, forwardSecond)
+        }
+        else {
+            self.timeLeft = String(format: "%d:%d", forwardMinute, forwardSecond)
+        }
+    }
+    
+    func findTimeRight(delay: Double) {
+        let reverseMinute = (Int(self.player.duration + 1 + delay) - Int(self.player.currentTime + 1)) / 60
+        let reverseSecond = (Int(self.player.duration + 1 + delay) - Int(self.player.currentTime + 1)) % 60
+        
+        if(reverseSecond < 10) {
+            self.timeRight = String(format: "-%d:0%d", reverseMinute, reverseSecond)
+        }
+        else {
+            self.timeRight = String(format: "-%d:%d", reverseMinute, reverseSecond)
+        }
+    }
+    
 }
 struct BlurPageButton : View {
         var image : String
@@ -181,6 +380,15 @@ struct BlurPageButton : View {
             }.padding()
     }
 }
+
+class AVdelegate : NSObject, AVAudioPlayerDelegate{
+    
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        
+        NotificationCenter.default.post(name: NSNotification.Name("Finish"), object: nil)
+    }
+}
+
 
 struct Player_Previews: PreviewProvider {
     static var previews: some View {

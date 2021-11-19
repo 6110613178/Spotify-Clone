@@ -16,8 +16,9 @@ struct ContentPage: View {
         navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
     }
     
-    var songs: [String:String] = ["penthouse":"Penthouse" , "Anadolu_Rock":"Anadolu Rock","cemKaraca":"Cem Karaca","Türkce_90lar":"Türkçe 90'lar"]
-    var topSongs: [String:String] = ["penthouse":"Penthouse" , "Anadolu_Rock":"Anadolu Rock" , "Türkce_90lar":"Türkçe 90'lar"]
+    var songs: [String:String] = ["The Everlasting [Img]":"The Everlasting", "Say So [JP ver.] [Img]":"Say So [JP ver.]", "Departures [Img]":"Departures"]
+    var topSongs: [String:String] = ["The Everlasting [Img]":"The Everlasting", "Say So [JP ver.] [Img]":"Say So [JP ver.]", "Departures [Img]":"Departures"]
+    var EgoistSongs: [String:String] = ["The Everlasting [Img]":"The Everlasting", "Departures [Img]":"Departures"]
     
     var body: some View {
         ZStack{
@@ -62,6 +63,38 @@ struct ContentPage: View {
                                 .padding(.leading)
                             }
                         }.frame(width: UIScreen.main.bounds.width)
+                        VStack{
+                            HStack {
+    //
+                                Image("Egoist")
+                                    .resizable()
+                                    .frame(width: 48, height: 48)
+                                    .clipShape(Circle())
+                                VStack(alignment:.leading) {
+                                    Text("FOR FANS OF")
+                                        .fontWeight(.ultraLight)
+                                        .font(.system(size: 15))
+                                        .foregroundColor(.init(.white))
+                                        .opacity(0.8).offset(x: 1, y: 3)
+                                    Text("Egoist")
+                                        .font(.title2)
+                                        .foregroundColor(.white)
+                                        .bold()
+                                }
+                                Spacer()
+                            }
+                            
+                            ScrollView(.horizontal, showsIndicators: false){
+                                HStack{
+    //
+                                    ForEach(EgoistSongs.keys.sorted() , id: \.self) { song in
+                                        Song(image: song, songName: EgoistSongs[song]!)
+                                            .padding(.trailing, 7)
+                                }
+                            }
+                            }
+                        }.padding(.top, 20).padding()
+                        
                     }
             }
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
