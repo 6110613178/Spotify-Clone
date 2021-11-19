@@ -60,7 +60,7 @@ struct Player: View {
                             .foregroundColor(.white)
                     }).frame(width: 60, height: 60)
                     Spacer()
-                    Text("\(songName)")
+                    Text(self.title)
                         .foregroundColor(.white)
                         .bold()
                     Spacer()

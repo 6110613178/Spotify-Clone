@@ -12,9 +12,9 @@ import FirebaseFirestoreSwift
 struct Music: Decodable, Identifiable {
     
     @DocumentID var id: String?
+    var didLike: Bool? = false
+    var isTopSong: Bool
+    var musicImage: String?
     var nameMusic: String
     var ownerMusic: String
-    var timeMusic: Int
-    var didLike: Bool? = false
-    
 }

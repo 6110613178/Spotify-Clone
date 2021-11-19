@@ -10,6 +10,7 @@
 		20855D2A2747FFCA00E3BFB5 /* Say So [JP ver.].mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 20855D272747FFC900E3BFB5 /* Say So [JP ver.].mp3 */; };
 		20855D2B2747FFCA00E3BFB5 /* The Everlasting.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 20855D282747FFC900E3BFB5 /* The Everlasting.mp3 */; };
 		20855D2C2747FFCA00E3BFB5 /* Departures.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 20855D292747FFCA00E3BFB5 /* Departures.mp3 */; };
+		20855D2E274826AA00E3BFB5 /* FeedMusicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20855D2D274826AA00E3BFB5 /* FeedMusicViewModel.swift */; };
 		6142898A274651A2004EC0F7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 61428989274651A2004EC0F7 /* FirebaseAuth */; };
 		6142898C274651A2004EC0F7 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 6142898B274651A2004EC0F7 /* FirebaseDatabase */; };
 		6142898E274651A2004EC0F7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6142898D274651A2004EC0F7 /* FirebaseFirestore */; };
@@ -39,6 +40,7 @@
 		20855D272747FFC900E3BFB5 /* Say So [JP ver.].mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Say So [JP ver.].mp3"; sourceTree = "<group>"; };
 		20855D282747FFC900E3BFB5 /* The Everlasting.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "The Everlasting.mp3"; sourceTree = "<group>"; };
 		20855D292747FFCA00E3BFB5 /* Departures.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Departures.mp3; sourceTree = "<group>"; };
+		20855D2D274826AA00E3BFB5 /* FeedMusicViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedMusicViewModel.swift; sourceTree = "<group>"; };
 		61428995274654C9004EC0F7 /* RegisterPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPage.swift; sourceTree = "<group>"; };
 		6142899727466263004EC0F7 /* SignInPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInPage.swift; sourceTree = "<group>"; };
 		61428999274679DC004EC0F7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				61AEA6E72747E31D006874A3 /* MusicViewModel.swift */,
+				20855D2D274826AA00E3BFB5 /* FeedMusicViewModel.swift */,
 			);
 			path = MusicViewModel;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 			files = (
 				6142899827466263004EC0F7 /* SignInPage.swift in Sources */,
 				8845E6C925457534001D0F37 /* ContentPage.swift in Sources */,
+				20855D2E274826AA00E3BFB5 /* FeedMusicViewModel.swift in Sources */,
 				61428996274654C9004EC0F7 /* RegisterPage.swift in Sources */,
 				8845E6C725457534001D0F37 /* SpotifyCloneApp.swift in Sources */,
 				886D76482546CE4E00E75034 /* SearchPage.swift in Sources */,
