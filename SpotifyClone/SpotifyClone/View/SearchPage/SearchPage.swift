@@ -101,7 +101,7 @@ struct SearchPage: View {
                         Spacer()
                     }.padding([.top , .trailing , .leading])
                     Category(color1: .blue,text1: "Pop" ,color2: .secondary, text2: "Rock")
-                    Category(color1: .red,text1: "Caz" ,color2: .green, text2: "Folk ve Akustik")
+                    Category(color1: .red,text1: "Jass" ,color2: .green, text2: "Folk and Acoustic")
                 }
                     HStack{
                         Text("Browse all")
@@ -122,6 +122,10 @@ struct SearchPage: View {
 }
 struct Search: View {
     @Environment(\.presentationMode) var presentationMode
+//
+//no problem if array empty
+    var songs: [String:String] = ["The Everlasting":"The Everlasting [Img]", "Say So [JP ver.]":"Say So [JP ver.] [Img]", "Departures":"Departures [Img]"]
+    @State var searchQuery = ""
 
     init() {
         let navBar = UINavigationBar.appearance()
@@ -130,33 +134,82 @@ struct Search: View {
         UITextField.appearance().textColor = .white
     }
     
-    @State private var src = ""
+//    @State private var src = ""
     var body: some View{
         NavigationView{
             ZStack{
                 Color.init(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.9545430223)).edgesIgnoringSafeArea(.all)
-                
-                    .navigationBarItems(trailing: HStack{
-                                            TextField("Ara", text: $src)
-                                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                                .frame(width: UIScreen.main.bounds.width - 150).accentColor(.green)
-                                            Button(action: {
-                                                presentationMode.wrappedValue.dismiss()
-                                            }, label: {
-                                                Text("İptal Et")
-                                                    .foregroundColor(.white)
-                                                    .fontWeight(.medium)
-                                            }).padding(.trailing)
-                                            Button(action: {}, label: {
-                                                Image(systemName: "camera")
-                                                    .foregroundColor(.white)
-                                            })})
-
+                    
+                    .navigationBarItems(trailing:
+                                            HStack{
+//
+                                                TextField("Search", text: $searchQuery)
+                                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                                    .frame(width: UIScreen.main.bounds.width - 150).accentColor(.green)
+                                                Button(action: {
+                                                    presentationMode.wrappedValue.dismiss()
+                                                }, label: {
+                                                    Text("Cancel")
+                                                        .foregroundColor(.white)
+                                                        .fontWeight(.medium)
+                                                }).padding(.trailing)
+                                                Button(action: {}, label: {
+                                                    Image(systemName: "camera")
+                                                        .foregroundColor(.white)
+                                                })}
+                    )
                     .navigationBarTitleDisplayMode(.inline)
+//
+                ScrollView(.vertical, showsIndicators: true, content: {
+                    
+                    VStack(spacing: 15){
+
+                        ForEach(searchQuery == "" ? songs.keys.sorted() :
+                                    songs.keys.sorted().filter{$0.lowercased().contains(searchQuery.lowercased())} , id: \.self
+                        ) { song in
+                            MusicSearchList(image: songs[song]!, songName: song)
+                        }
+                    }
+                }).padding(.top, 10)
             }
+            
         }
     }
 }
+//
+struct MusicSearchList: View {
+    
+    @State private var isPlayerOpen = false
+    var image: String
+    var songName : String
+    
+    var body: some View{
+        
+        HStack{
+            Image(image).resizable()
+                .frame(width: 80, height: 80)
+            
+            VStack(alignment: .leading){
+                Text(songName)
+                    .font(.headline)
+                    .foregroundColor(.white)
+                Text("by Spotify")
+                    .foregroundColor(.gray)
+                    .font(.subheadline)
+            }
+            Spacer()
+        }
+        .padding([.leading])
+        .onTapGesture {
+            isPlayerOpen.toggle()
+        }
+        .fullScreenCover(isPresented: $isPlayerOpen, content: {
+            Player(songName: songName, albumImage: image)
+        })
+        
+    }
+}
+
 struct SearchPage_Previews: PreviewProvider {
     static var previews: some View {
         SearchPage()

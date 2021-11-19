@@ -88,24 +88,24 @@ struct LibraryPage : View {
 
             VStack{
                 HStack(spacing: 20){
-            Text("Music")
-                .font(.largeTitle).bold()
-                .foregroundColor(self.CategoryIndex == 0 ? .white : .secondary)
-                .onTapGesture {
-                    page = "music"
-                    withAnimation(.easeIn,{
-                        subCategorys = ["Playlists"]
-                        self.CategoryIndex = 0
-                    })
-                }
-                .padding(.top,-60)
-            Spacer()
-        }.padding([.leading, .top])
+                    Text("Music")
+                        .font(.largeTitle).bold()
+                        .foregroundColor(self.CategoryIndex == 0 ? .white : .secondary)
+                        .onTapGesture {
+                            page = "music"
+                            withAnimation(.easeIn,{
+                                subCategorys = ["Playlists"]
+                                self.CategoryIndex = 0
+                            })
+                        }
+                        .padding(.top,-60)
+                    Spacer()
+                }.padding([.leading, .top])
                 Library(subCategorys: subCategorys).padding(.top)
                 ScrollView(.vertical, showsIndicators: true, content: {
-                            ForEach(songs.keys.sorted() , id: \.self) { song in
-                                Playlist(image: song, songName: songs[song]!, presentPage: $page)
-                            }
+                    ForEach(songs.keys.sorted() , id: \.self) { song in
+                        Playlist(image: song, songName: songs[song]!, presentPage: $page)
+                    }
                     ForEach(songs.keys.sorted() , id: \.self) { song in
                         Playlist(image: song, songName: songs[song]!, presentPage: $page)
                     }
