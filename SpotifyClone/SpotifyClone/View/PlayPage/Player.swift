@@ -17,8 +17,7 @@ struct Player: View {
     @State var like = false
     @State var devices = true
     @State var blur = false
-
-//    @ObservedObject var viewModel: MusicViewModel
+    
     @State var data: Data = .init(count: 0)
     @State var title = ""
     @State var artist = ""
@@ -38,11 +37,14 @@ struct Player: View {
     var backgroundColor : Color
     var backgroundColor2 : Color
     
-    init(songName : String, albumImage : String){
+    @ObservedObject var viewModel : MusicViewModel
+    
+    init(songName : String, albumImage : String, music : Music){ //
         self.songName = songName
         self.albumImage = albumImage
         backgroundColor = colors.randomElement()!.key
         backgroundColor2 = colors[backgroundColor]!
+        self.viewModel  = MusicViewModel(music: music)
     }
     
     var body: some View {
@@ -96,11 +98,10 @@ struct Player: View {
                     Spacer()
                     Button(action: {
                         like.toggle()
-                        
-//                        viewModel.like()
+                        viewModel.music.didLike ?? false ? viewModel.unlike() : viewModel.like()
                         
                     }, label: {
-                        Image(systemName: like ? "heart.fill" : "heart").foregroundColor(like ? .green :.white )
+                        Image(systemName: viewModel.music.didLike ?? false ? "heart.fill" : "heart").foregroundColor(like ? .green :.white )
                             .font(.system(size: 20)).animation(.default)
                     })
                 }.padding([.leading,.trailing,.top],20)
@@ -272,6 +273,15 @@ struct Player: View {
                     }.padding(.top , 200)
                     
                     BlurPageButton(image: "heart", text: "Like")
+                    Button(action: {
+                        like.toggle()
+                        
+                        //didLike ? viewModel.unlike() : viewModel.like()
+                        
+                    }, label: {
+                        Image(systemName: like ? "heart.fill" : "heart").foregroundColor(like ? .green :.white )
+                            .font(.system(size: 20)).animation(.default)
+                    })
                     //BlurPageButton(image: "moon", text: "Sleep timer")
 
             }
@@ -393,10 +403,4 @@ class AVdelegate : NSObject, AVAudioPlayerDelegate{
     }
 }
 
-
-struct Player_Previews: PreviewProvider {
-    static var previews: some View {
-        Player(songName: "Anadolu Rock", albumImage: "cemKaraca")
-    }
-}
 

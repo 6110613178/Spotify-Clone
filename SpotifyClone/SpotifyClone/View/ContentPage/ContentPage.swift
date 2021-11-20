@@ -20,110 +20,94 @@ struct ContentPage: View {
     var topSongs: [String:String] = ["The Everlasting [Img]":"The Everlasting", "Say So [JP ver.] [Img]":"Say So [JP ver.]", "Departures [Img]":"Departures"]
     var EgoistSongs: [String:String] = ["The Everlasting [Img]":"The Everlasting", "Departures [Img]":"Departures"]
     
+    @ObservedObject var viewModel = FeedMusicViewModel()
+    
     var body: some View {
         ZStack{
             LinearGradient.init(gradient: Gradient(colors: [.init(#colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.7745838351, alpha: 0.5)), .black , .black, .black]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea(.all)
             ScrollView(.vertical, showsIndicators: false){
-                    VStack{
-                        HStack{
-                            Text("Good Morning").font(.title).foregroundColor(.white).bold()
-                            Spacer()
-                        }.padding(.top,65)
-                        
-                        HStack{
-                            VStack{
-                                ForEach(topSongs.keys.sorted() , id: \.self){ song in
-                                    TopAlbum(image: song, songName: songs[song]!)
-                                        .padding(.trailing, 7)
-                                }
-                            }
-                            VStack{
-                                ForEach(topSongs.keys.sorted() , id: \.self) { song in
-                                    TopAlbum(image: song, songName: songs[song]!)
-                                        .padding(.trailing, 7)
-                                }
-                            }
-                        }.padding().frame(width: UIScreen.main.bounds.width)
-                        VStack(alignment: .leading){
-                            HStack{
-                                Text("Recently played").font(.title2).foregroundColor(.white).bold()
-                                Spacer()
-                            }.padding()
-                            ScrollView(.horizontal, showsIndicators: false){
-                                HStack{
-                                    ForEach(songs.keys.sorted() , id: \.self) { song in
-                                        Song(image: song, songName: songs[song]!)
-                                            .padding(.trailing, 7)
-                                    }
-                                    ForEach(songs.keys.sorted() , id: \.self) { song in
-                                        Song(image: song, songName: songs[song]!)
-                                            .padding(.trailing, 7)
-                                    }
-                                }
-                                .padding(.leading)
-                            }
-                        }.frame(width: UIScreen.main.bounds.width)
+                VStack{
+                    HStack{
+                        Text("Good Morning").font(.title).foregroundColor(.white).bold()
+                        Spacer()
+                    }.padding(.top,65)
+                    
+                    HStack{
                         VStack{
-                            HStack {
-    //
-                                Image("Egoist")
-                                    .resizable()
-                                    .frame(width: 48, height: 48)
-                                    .clipShape(Circle())
-                                VStack(alignment:.leading) {
-                                    Text("FOR FANS OF")
-                                        .fontWeight(.ultraLight)
-                                        .font(.system(size: 15))
-                                        .foregroundColor(.init(.white))
-                                        .opacity(0.8).offset(x: 1, y: 3)
-                                    Text("Egoist")
-                                        .font(.title2)
-                                        .foregroundColor(.white)
-                                        .bold()
-                                }
-                                Spacer()
+                            ForEach(viewModel.musics) { music in
+                                MusicTop(music: music).padding(.trailing, 7)
+                                
                             }
                             
-                            ScrollView(.horizontal, showsIndicators: false){
-                                HStack{
-    //
-                                    ForEach(EgoistSongs.keys.sorted() , id: \.self) { song in
-                                        Song(image: song, songName: EgoistSongs[song]!)
-                                            .padding(.trailing, 7)
+                        }
+                        VStack{
+                            ForEach(viewModel.musics) { music in
+                                MusicTop(music: music).padding(.trailing, 7)
+                                
+                            }
+                        }
+                    }.padding().frame(width: UIScreen.main.bounds.width)
+                    VStack(alignment: .leading){
+                        HStack{
+                            Text("Recently played").font(.title2).foregroundColor(.white).bold()
+                            Spacer()
+                        }.padding()
+                        ScrollView(.horizontal, showsIndicators: false){
+                            HStack{
+                                ForEach(viewModel.musics) { music in
+                                    MusicCard(music: music).padding(.trailing, 7)
+                                    
+                                }
+                                ForEach(viewModel.musics) { music in
+                                    MusicCard(music: music).padding(.trailing, 7)
+                                    
                                 }
                             }
+                            .padding(.leading)
+                        }
+                    }.frame(width: UIScreen.main.bounds.width)
+                    VStack{
+                        HStack {
+                            //
+                            Image("Egoist")
+                                .resizable()
+                                .frame(width: 48, height: 48)
+                                .clipShape(Circle())
+                            VStack(alignment:.leading) {
+                                Text("FOR FANS OF")
+                                    .fontWeight(.ultraLight)
+                                    .font(.system(size: 15))
+                                    .foregroundColor(.init(.white))
+                                    .opacity(0.8).offset(x: 1, y: 3)
+                                Text("Egoist")
+                                    .font(.title2)
+                                    .foregroundColor(.white)
+                                    .bold()
                             }
-                        }.padding(.top, 20).padding()
+                            Spacer()
+                        }
                         
-                    }
+                        ScrollView(.horizontal, showsIndicators: false){
+                            HStack{
+                                //
+                                ForEach(viewModel.musics) { music in
+                                    MusicCard(music: music).padding(.trailing, 7)
+                                    
+                                }
+                            }
+                        }
+                    }.padding(.top, 20).padding()
+                    
+                }
             }
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         }
     }
 }
 
-struct Song: View {
-    @State private var isPlayerOpen = false
-    var image: String
-    var songName: String
-    var body: some View{
-        VStack(alignment: .leading){
-            Image(image)
-                .resizable()
-                .frame(width: 124, height: 124)
-            Text(songName)
-                .foregroundColor(.white).fontWeight(.medium).font(.system(size: 15))
-        }.onTapGesture {
-            isPlayerOpen.toggle()
-        }
-        .fullScreenCover(isPresented: $isPlayerOpen, content: {
-            Player(songName: songName, albumImage: image)
-        })
-    }
-}
-
 struct TopAlbum: View {
     @State private var isPlayerOpen = false
+    var music = Music(id: "5",isTopSong: false,musicImage: "1",nameMusic: "2",ownerMusic: "4")
     var image: String
     var songName: String
     var body: some View {
@@ -150,7 +134,7 @@ struct TopAlbum: View {
                     isPlayerOpen.toggle()
                 }
                 .fullScreenCover(isPresented: $isPlayerOpen, content: {
-                    Player(songName: songName, albumImage: image)
+                    Player(songName: songName, albumImage: image,music: music)
                 })
         }
     }

@@ -13,10 +13,10 @@ class FeedMusicViewModel: ObservableObject {
     @Published var musics = [Music]()
     
     init(){
-        fetchPosts()
+        fetchMusics()
     }
     
-    func fetchPosts(){
+    func fetchMusics(){
         Firestore.firestore().collection("musics").getDocuments { (snap, error) in
             if let error = error {
                 print(error.localizedDescription)

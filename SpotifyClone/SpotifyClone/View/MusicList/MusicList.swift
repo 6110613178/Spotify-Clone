@@ -34,7 +34,7 @@ struct MusicList: View {
             isPlayerOpen.toggle()
         }
         .fullScreenCover(isPresented: $isPlayerOpen, content: {
-            Player(songName: music.nameMusic, albumImage: music.musicImage)
+            Player(songName: music.nameMusic, albumImage: music.musicImage, music: music)
         })
         
     }
