@@ -13,8 +13,9 @@ struct Music: Decodable, Identifiable {
     
     @DocumentID var id: String?
     var didLike: Bool? = false
+    var didInPlaylist: Bool? = false
     var isTopSong: Bool
-    var musicImage: String?
+    var musicImage: String
     var nameMusic: String
     var ownerMusic: String
 }

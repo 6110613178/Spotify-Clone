@@ -18,6 +18,7 @@ struct Player: View {
     @State var devices = true
     @State var blur = false
 
+//    @ObservedObject var viewModel: MusicViewModel
     @State var data: Data = .init(count: 0)
     @State var title = ""
     @State var artist = ""
@@ -95,6 +96,9 @@ struct Player: View {
                     Spacer()
                     Button(action: {
                         like.toggle()
+                        
+//                        viewModel.like()
+                        
                     }, label: {
                         Image(systemName: like ? "heart.fill" : "heart").foregroundColor(like ? .green :.white )
                             .font(.system(size: 20)).animation(.default)

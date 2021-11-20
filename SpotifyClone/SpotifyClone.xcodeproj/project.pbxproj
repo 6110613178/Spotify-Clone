@@ -11,6 +11,9 @@
 		20855D2B2747FFCA00E3BFB5 /* The Everlasting.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 20855D282747FFC900E3BFB5 /* The Everlasting.mp3 */; };
 		20855D2C2747FFCA00E3BFB5 /* Departures.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 20855D292747FFCA00E3BFB5 /* Departures.mp3 */; };
 		20855D2E274826AA00E3BFB5 /* FeedMusicViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20855D2D274826AA00E3BFB5 /* FeedMusicViewModel.swift */; };
+		20855D31274867FA00E3BFB5 /* MusicList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20855D30274867FA00E3BFB5 /* MusicList.swift */; };
+		20855D3527497BD600E3BFB5 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20855D3427497BD600E3BFB5 /* SearchViewModel.swift */; };
+		20855D38274984B300E3BFB5 /* PlaylistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20855D37274984B300E3BFB5 /* PlaylistViewModel.swift */; };
 		6142898A274651A2004EC0F7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 61428989274651A2004EC0F7 /* FirebaseAuth */; };
 		6142898C274651A2004EC0F7 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 6142898B274651A2004EC0F7 /* FirebaseDatabase */; };
 		6142898E274651A2004EC0F7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6142898D274651A2004EC0F7 /* FirebaseFirestore */; };
@@ -41,6 +44,9 @@
 		20855D282747FFC900E3BFB5 /* The Everlasting.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "The Everlasting.mp3"; sourceTree = "<group>"; };
 		20855D292747FFCA00E3BFB5 /* Departures.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Departures.mp3; sourceTree = "<group>"; };
 		20855D2D274826AA00E3BFB5 /* FeedMusicViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedMusicViewModel.swift; sourceTree = "<group>"; };
+		20855D30274867FA00E3BFB5 /* MusicList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicList.swift; sourceTree = "<group>"; };
+		20855D3427497BD600E3BFB5 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		20855D37274984B300E3BFB5 /* PlaylistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistViewModel.swift; sourceTree = "<group>"; };
 		61428995274654C9004EC0F7 /* RegisterPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPage.swift; sourceTree = "<group>"; };
 		6142899727466263004EC0F7 /* SignInPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInPage.swift; sourceTree = "<group>"; };
 		61428999274679DC004EC0F7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -89,9 +95,34 @@
 			path = Music;
 			sourceTree = "<group>";
 		};
+		20855D2F274867DA00E3BFB5 /* MusicList */ = {
+			isa = PBXGroup;
+			children = (
+				20855D30274867FA00E3BFB5 /* MusicList.swift */,
+			);
+			path = MusicList;
+			sourceTree = "<group>";
+		};
+		20855D3327497BC000E3BFB5 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				20855D3427497BD600E3BFB5 /* SearchViewModel.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		20855D362749847D00E3BFB5 /* Playlist */ = {
+			isa = PBXGroup;
+			children = (
+				20855D37274984B300E3BFB5 /* PlaylistViewModel.swift */,
+			);
+			path = Playlist;
+			sourceTree = "<group>";
+		};
 		6142898227464E8C004EC0F7 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				20855D2F274867DA00E3BFB5 /* MusicList */,
 				6142898727464F95004EC0F7 /* HomePage */,
 				614289A027468556004EC0F7 /* ContentPage */,
 				6142898427464F37004EC0F7 /* SearchPage */,
@@ -146,6 +177,8 @@
 		6142899B27467B09004EC0F7 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				20855D362749847D00E3BFB5 /* Playlist */,
+				20855D3327497BC000E3BFB5 /* Search */,
 				614289B22747AB62004EC0F7 /* MusicViewModel */,
 				614289A52746D2DB004EC0F7 /* Authentication */,
 			);
@@ -313,7 +346,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20855D31274867FA00E3BFB5 /* MusicList.swift in Sources */,
 				6142899827466263004EC0F7 /* SignInPage.swift in Sources */,
+				20855D3527497BD600E3BFB5 /* SearchViewModel.swift in Sources */,
+				20855D38274984B300E3BFB5 /* PlaylistViewModel.swift in Sources */,
 				8845E6C925457534001D0F37 /* ContentPage.swift in Sources */,
 				20855D2E274826AA00E3BFB5 /* FeedMusicViewModel.swift in Sources */,
 				61428996274654C9004EC0F7 /* RegisterPage.swift in Sources */,

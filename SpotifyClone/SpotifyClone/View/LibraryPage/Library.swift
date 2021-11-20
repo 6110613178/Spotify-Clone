@@ -46,38 +46,11 @@ struct Library: View {
     }
 }
 
-
-struct Playlist: View {
-    var image: String
-    var songName : String
-    @Binding var presentPage : String
-    
-    var body: some View{
-        
-        if presentPage == "music"{
-            HStack{
-                Image(image).resizable()
-                    .frame(width: 80, height: 80)
-                
-                VStack(alignment: .leading){
-                    Text(songName)
-                        .font(.headline)
-                        .foregroundColor(.white)
-                    Text("by Spotify")
-                        .foregroundColor(.gray)
-                        .font(.subheadline)
-                }
-                Spacer()
-            }
-            .padding([.leading])
-        }
-    }
-}
-
-
 struct LibraryPage : View {
     
-    var songs: [String:String] = ["penthouse":"Penthouse" , "Anadolu_Rock":"Anadolu Rock","cemKaraca":"Cem Karaca","Türkce_90lar":"Türkçe 90'lar"]
+    @ObservedObject var viewModel = PlaylistViewModel()
+    
+//    var songs: [String:String] = ["penthouse":"Penthouse" , "Anadolu_Rock":"Anadolu Rock","cemKaraca":"Cem Karaca","Türkce_90lar":"Türkçe 90'lar"]
     @State var CategoryIndex : Int
     @State var subCategorys = ["Playlists"]
     @State var page = "music"
@@ -103,13 +76,20 @@ struct LibraryPage : View {
                 }.padding([.leading, .top])
                 Library(subCategorys: subCategorys).padding(.top)
                 ScrollView(.vertical, showsIndicators: true, content: {
-                    ForEach(songs.keys.sorted() , id: \.self) { song in
-                        Playlist(image: song, songName: songs[song]!, presentPage: $page)
+                    
+                    VStack(spacing: 15){
+
+//                        ForEach(searchQuery == "" ? songs.keys.sorted() :
+//                                    songs.keys.sorted().filter{$0.lowercased().contains(searchQuery.lowercased())} , id: \.self
+//                        ) { song in
+//                            MusicSearchList(image: songs[song]!, songName: song)
+//                        }
+                        ForEach(viewModel.filterPlaylistMusics()) { music in
+                            MusicList(music: music)
+                        }
+                        
                     }
-                    ForEach(songs.keys.sorted() , id: \.self) { song in
-                        Playlist(image: song, songName: songs[song]!, presentPage: $page)
-                    }
-                })
+                }).padding(.top, 10)
             }
             
         }

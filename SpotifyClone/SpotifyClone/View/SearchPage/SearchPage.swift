@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseFirestoreSwift
+
 
 struct Category: View {
     var color1: Color
@@ -122,9 +125,10 @@ struct SearchPage: View {
 }
 struct Search: View {
     @Environment(\.presentationMode) var presentationMode
+    
+    @ObservedObject var viewModel = SearchViewModel()
 //
 //no problem if array empty
-    var songs: [String:String] = ["The Everlasting":"The Everlasting [Img]", "Say So [JP ver.]":"Say So [JP ver.] [Img]", "Departures":"Departures [Img]"]
     @State var searchQuery = ""
 
     init() {
@@ -164,50 +168,26 @@ struct Search: View {
                     
                     VStack(spacing: 15){
 
-                        ForEach(searchQuery == "" ? songs.keys.sorted() :
-                                    songs.keys.sorted().filter{$0.lowercased().contains(searchQuery.lowercased())} , id: \.self
-                        ) { song in
-                            MusicSearchList(image: songs[song]!, songName: song)
+//                        ForEach(searchQuery == "" ? songs.keys.sorted() :
+//                                    songs.keys.sorted().filter{$0.lowercased().contains(searchQuery.lowercased())} , id: \.self
+//                        ) { song in
+//                            MusicSearchList(image: songs[song]!, songName: song)
+//                        }
+                        ForEach(musics) { music in
+                            MusicList(music: music)
                         }
+                        
                     }
                 }).padding(.top, 10)
             }
             
         }
     }
-}
-//
-struct MusicSearchList: View {
     
-    @State private var isPlayerOpen = false
-    var image: String
-    var songName : String
-    
-    var body: some View{
-        
-        HStack{
-            Image(image).resizable()
-                .frame(width: 80, height: 80)
-            
-            VStack(alignment: .leading){
-                Text(songName)
-                    .font(.headline)
-                    .foregroundColor(.white)
-                Text("by Spotify")
-                    .foregroundColor(.gray)
-                    .font(.subheadline)
-            }
-            Spacer()
-        }
-        .padding([.leading])
-        .onTapGesture {
-            isPlayerOpen.toggle()
-        }
-        .fullScreenCover(isPresented: $isPlayerOpen, content: {
-            Player(songName: songName, albumImage: image)
-        })
-        
+    var musics: [Music] {
+        searchQuery == "" ? viewModel.musics : viewModel.filterSearchMusics(withText: searchQuery)
     }
+    
 }
 
 struct SearchPage_Previews: PreviewProvider {
