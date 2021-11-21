@@ -87,5 +87,4 @@ struct LibraryPage : View {
         }
         
     }
-    
 }

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct HomePage:View {
     
+    @State var refresh: Bool = false
+    
     init() {
         UITabBar.appearance().barTintColor = UIColor.black
       }
@@ -31,10 +33,17 @@ struct HomePage:View {
                         Image("library")
                         Text("Library")
                     }
+                    .onTapGesture {
+                        update()
+                    }
             }
             .navigationBarItems(trailing: logOutButton)
             .accentColor(.white)
         }
+    }
+    
+    func update() {
+        refresh.toggle()
     }
     
     var logOutButton: some View{
