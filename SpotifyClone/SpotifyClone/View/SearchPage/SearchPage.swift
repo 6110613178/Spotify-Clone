@@ -2,7 +2,7 @@
 //  SearchPage.swift
 //  SpotifyClone
 //
-//  Created by AlkanBurak on 26.10.2020.
+//  Created by Teerat Prasitwet on 19/11/2564 BE.
 //
 
 import SwiftUI
@@ -128,7 +128,6 @@ struct Search: View {
     
     @ObservedObject var viewModel = SearchViewModel()
 //
-//no problem if array empty
     @State var searchQuery = ""
 
     init() {
@@ -138,7 +137,6 @@ struct Search: View {
         UITextField.appearance().textColor = .white
     }
     
-//    @State private var src = ""
     var body: some View{
         NavigationView{
             ZStack{
@@ -168,13 +166,8 @@ struct Search: View {
                     
                     VStack(spacing: 15){
 
-//                        ForEach(searchQuery == "" ? songs.keys.sorted() :
-//                                    songs.keys.sorted().filter{$0.lowercased().contains(searchQuery.lowercased())} , id: \.self
-//                        ) { song in
-//                            MusicSearchList(image: songs[song]!, songName: song)
-//                        }
                         ForEach(musics) { music in
-                            MusicList(music: music)
+                            MusicSearch(music: music)
                         }
                         
                     }

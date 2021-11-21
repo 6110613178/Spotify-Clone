@@ -2,13 +2,11 @@
 //  Library.swift
 //  SpotifyClone
 //
-//  Created by Ahmet Alkan on 21.11.2020.
+//  Created by Tham Thearawiboon on 18/11/2564 BE.
 //
 
 import SwiftUI
 
-
-//While creating the Library struct of the Spotify clone, https://medium.com/swlh/building-spotifys-ui-with-swiftui-5f8be5c2bdd4 was used.
 
 struct Library: View {
 
@@ -48,9 +46,8 @@ struct Library: View {
 
 struct LibraryPage : View {
     
-    @ObservedObject var viewModel = PlaylistViewModel()
+    @ObservedObject var viewModel = MusicsViewModel()
     
-//    var songs: [String:String] = ["penthouse":"Penthouse" , "Anadolu_Rock":"Anadolu Rock","cemKaraca":"Cem Karaca","Türkce_90lar":"Türkçe 90'lar"]
     @State var CategoryIndex : Int
     @State var subCategorys = ["Playlists"]
     @State var page = "music"
@@ -79,13 +76,8 @@ struct LibraryPage : View {
                     
                     VStack(spacing: 15){
 
-//                        ForEach(searchQuery == "" ? songs.keys.sorted() :
-//                                    songs.keys.sorted().filter{$0.lowercased().contains(searchQuery.lowercased())} , id: \.self
-//                        ) { song in
-//                            MusicSearchList(image: songs[song]!, songName: song)
-//                        }
-                        ForEach(viewModel.filterPlaylistMusics()) { music in
-                            MusicList(music: music)
+                        ForEach(viewModel.musics) { music in
+                            MusicPlaylist(viewModel: CellMusicViewModel(music: music) ,music: music)
                         }
                         
                     }
@@ -93,13 +85,7 @@ struct LibraryPage : View {
             }
             
         }
+        
     }
     
-}
-struct Library_Previews: PreviewProvider {
-
-    static var previews: some View {
-        LibraryPage(CategoryIndex: 0)
-        //Playlist(image: "cemKaraca", songName: "sdsad", presentPage: "podcast")
-    }
 }

@@ -1,5 +1,5 @@
 //
-//  MusicList.swift
+//  MusicSearch.swift
 //  SpotifyClone
 //
 //  Created by Teerat Prasitwet on 19/11/2564 BE.

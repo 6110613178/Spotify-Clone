@@ -1,5 +1,5 @@
 //
-//  FeedMusicViewModel.swift
+//  MusicsViewModel.swift
 //  SpotifyClone
 //
 //  Created by Teerat Prasitwet on 19/11/2564 BE.
@@ -9,7 +9,7 @@ import SwiftUI
 import Firebase
 import FirebaseFirestoreSwift
 
-class FeedMusicViewModel: ObservableObject {
+class MusicsViewModel: ObservableObject {
     @Published var musics = [Music]()
     
     init(){

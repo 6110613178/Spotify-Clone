@@ -2,7 +2,7 @@
 //  SpotifyCloneApp.swift
 //  SpotifyClone
 //
-//  Created by AlkanBurak on 25.10.2020.
+//  Created by Tham Thearawiboon on 18/11/2564 BE.
 //
 
 import SwiftUI

@@ -1,5 +1,5 @@
 //
-//  MusicList.swift
+//  MusicSearch.swift
 //  SpotifyClone
 //
 //  Created by Teerat Prasitwet on 19/11/2564 BE.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MusicList: View {
+struct MusicSearch: View {
     
     @State var music: Music
     

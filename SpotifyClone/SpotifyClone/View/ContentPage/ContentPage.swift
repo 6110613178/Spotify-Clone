@@ -1,8 +1,8 @@
 //
-//  ContentView.swift
+//  ContentPage.swift
 //  SpotifyClone
 //
-//  Created by AlkanBurak on 25.10.2020.
+//  Created by Tham Thearawiboon on 18/11/2564 BE.
 //
 
 import SwiftUI
@@ -16,11 +16,7 @@ struct ContentPage: View {
         navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
     }
     
-    var songs: [String:String] = ["The Everlasting [Img]":"The Everlasting", "Say So [JP ver.] [Img]":"Say So [JP ver.]", "Departures [Img]":"Departures"]
-    var topSongs: [String:String] = ["The Everlasting [Img]":"The Everlasting", "Say So [JP ver.] [Img]":"Say So [JP ver.]", "Departures [Img]":"Departures"]
-    var EgoistSongs: [String:String] = ["The Everlasting [Img]":"The Everlasting", "Departures [Img]":"Departures"]
-    
-    @ObservedObject var viewModel = FeedMusicViewModel()
+    @ObservedObject var viewModel = MusicsViewModel()
     
     var body: some View {
         ZStack{
@@ -104,42 +100,6 @@ struct ContentPage: View {
         }
     }
 }
-
-struct TopAlbum: View {
-    @State private var isPlayerOpen = false
-    var music = Music(id: "5",isTopSong: false,musicImage: "1",nameMusic: "2",ownerMusic: "4")
-    var image: String
-    var songName: String
-    var body: some View {
-        ZStack{
-            Rectangle()
-                .foregroundColor(.init(#colorLiteral(red: 0.1686044633, green: 0.1686406434, blue: 0.1686021686, alpha: 1)))
-                .opacity(0.8)
-                .frame(width: 187, height: 56)
-                .cornerRadius(5)
-            
-            HStack{
-                Image(image).resizable()
-                    .frame(width: 56, height: 56)
-                    .cornerRadius(4, corners: [.topLeft, .bottomLeft])
-                //.offset(x: -66, y: 0)
-                Spacer()
-                Text(songName)
-                    .foregroundColor(.white).fontWeight(.semibold).font(.system(size: 15))
-                Spacer()
-                Spacer()
-                Spacer()
-            }.frame(maxWidth:187 ,  maxHeight: 56)
-                .onTapGesture {
-                    isPlayerOpen.toggle()
-                }
-                .fullScreenCover(isPresented: $isPlayerOpen, content: {
-                    Player(songName: songName, albumImage: image,music: music)
-                })
-        }
-    }
-}
-
 
 struct ContentPage_Previews: PreviewProvider {
     static var previews: some View {

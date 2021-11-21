@@ -2,7 +2,7 @@
 //  Player.swift
 //  SpotifyClone
 //
-//  Created by AlkanBurak on 18.11.2020.
+//  Created by Teerat Prasitwet on 19/11/2564 BE.
 //
 
 import SwiftUI
@@ -37,14 +37,14 @@ struct Player: View {
     var backgroundColor : Color
     var backgroundColor2 : Color
     
-    @ObservedObject var viewModel : MusicViewModel
+    @ObservedObject var viewModel : CellMusicViewModel
     
     init(songName : String, albumImage : String, music : Music){ //
         self.songName = songName
         self.albumImage = albumImage
         backgroundColor = colors.randomElement()!.key
         backgroundColor2 = colors[backgroundColor]!
-        self.viewModel  = MusicViewModel(music: music)
+        self.viewModel  = CellMusicViewModel(music: music)
     }
     
     var body: some View {
@@ -97,11 +97,10 @@ struct Player: View {
                     }
                     Spacer()
                     Button(action: {
-                        like.toggle()
-                        viewModel.music.didLike ?? false ? viewModel.unlike() : viewModel.like()
+                        viewModel.music.didLike ? viewModel.unlike() : viewModel.like()
                         
                     }, label: {
-                        Image(systemName: viewModel.music.didLike ?? false ? "heart.fill" : "heart").foregroundColor(.white )
+                        Image(systemName: viewModel.music.didLike ? "heart.fill" : "heart").foregroundColor(.white )
                             .font(.system(size: 20)).animation(.default)
                     })
                 }.padding([.leading,.trailing,.top],20)
@@ -199,14 +198,12 @@ struct Player: View {
                     }.padding([.trailing,.leading , .bottom] , 20)
                 }
                 HStack{
-                    //Image(systemName: "text.badge.plus").foregroundColor(.white)
                     
                     Button(action: {
-                        playlist.toggle()
-                        viewModel.music.didInPlaylist ?? false ? viewModel.deleteFromPlaylist() : viewModel.addToPlaylist()
+                        viewModel.music.didInPlaylist ? viewModel.deleteFromPlaylist() : viewModel.addToPlaylist()
                         
                     }, label: {
-                        Image(systemName: viewModel.music.didInPlaylist ?? false ? "text.badge.plus" : "text.badge.plus").foregroundColor(playlist ? .green :.white ).animation(.default)
+                        Image(systemName: viewModel.music.didInPlaylist ? "text.badge.plus" : "text.badge.plus").foregroundColor(viewModel.music.didInPlaylist ? .green :.white ).animation(.default)
                     })
                 }.padding()
             }.blur(radius: blur ? 30.0 : 0)
@@ -279,18 +276,6 @@ struct Player: View {
                             .font(.headline)
                         
                     }.padding(.top , 200)
-                    
-                    BlurPageButton(image: "heart", text: "Like")
-                    Button(action: {
-                        like.toggle()
-                        
-                        //didLike ? viewModel.unlike() : viewModel.like()
-                        
-                    }, label: {
-                        Image(systemName: like ? "heart.fill" : "heart").foregroundColor(like ? .green :.white )
-                            .font(.system(size: 20)).animation(.default)
-                    })
-                    //BlurPageButton(image: "moon", text: "Sleep timer")
 
             }
                 Button(action: {

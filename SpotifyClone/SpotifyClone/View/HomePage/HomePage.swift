@@ -1,8 +1,8 @@
 //
-//  HomeP.swift
+//  HomePage.swift
 //  SpotifyClone
 //
-//  Created by AlkanBurak on 18.11.2020.
+//  Created by Tham Thearawiboon on 18/11/2564 BE.
 //
 
 import SwiftUI

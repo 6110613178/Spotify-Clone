@@ -1,5 +1,5 @@
 //
-//  MusicViewModel.swift
+//  CellMusicViewModel.swift
 //  SpotifyClone
 //
 //  Created by Tham Thearawiboon on 19/11/2564 BE.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Firebase
 
-class MusicViewModel: ObservableObject {
+class CellMusicViewModel: ObservableObject {
     @Published var music: Music
     
     init(music: Music) {
@@ -18,9 +18,7 @@ class MusicViewModel: ObservableObject {
     }
     
     func like() {
-        if let didLike = music.didLike, didLike {
-            return
-        }
+        
         guard let musicID = music.id else { return }
         guard let userID = AuthViewModel.share.userSession?.uid else { return }
                 
@@ -57,9 +55,7 @@ class MusicViewModel: ObservableObject {
     }
     
     func unlike() {
-        if let didLike = music.didLike, !didLike {
-            return
-        }
+        
         guard let musicID = music.id else { return }
         guard let userID = AuthViewModel.share.userSession?.uid else { return }
                 
@@ -81,9 +77,7 @@ class MusicViewModel: ObservableObject {
     }
     
     func addToPlaylist() {
-        if let didInPlaylist = music.didInPlaylist, didInPlaylist {
-            return
-        }
+
         guard let musicID = music.id else { return }
         guard let userID = AuthViewModel.share.userSession?.uid else { return }
                 
@@ -120,9 +114,7 @@ class MusicViewModel: ObservableObject {
     }
     
     func deleteFromPlaylist() {
-        if let didInPlaylist = music.didInPlaylist, !didInPlaylist {
-            return
-        }
+
         guard let musicID = music.id else { return }
         guard let userID = AuthViewModel.share.userSession?.uid else { return }
                 
