@@ -15,7 +15,7 @@ class PlaylistViewModel: ObservableObject {
     init(){
         fetchPlaylistMusics()
     }
-    
+     
     func fetchPlaylistMusics(){
         Firestore.firestore().collection("musics").getDocuments { (snap, error) in
             if let error = error {
@@ -30,6 +30,11 @@ class PlaylistViewModel: ObservableObject {
     }
     
     func filterPlaylistMusics() -> [Music] {
-        return musics.filter{ $0.didInPlaylist == true}
+        return musics.filter{ $0.didInPlaylist == true }
     }
+    
+//    func filterSearchMusics(withText input: String) -> [Music] {
+//        let lowercasedInput = input.lowercased()
+//        return musics.filter{ $0.nameMusic.lowercased().contains(lowercasedInput) || $0.ownerMusic.lowercased().contains(lowercasedInput)}
+//    }
 }

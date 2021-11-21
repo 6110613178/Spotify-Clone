@@ -10,11 +10,11 @@ import AVKit
 
 struct Player: View {
     @Environment(\.presentationMode) var presentationMode
-    @State var shuffle = false
-    @State var repeatButton = true
+    // Name button group
     @State var play = true
     @State var time: Double = 50
     @State var like = false
+    @State var playlist = false
     @State var devices = true
     @State var blur = false
     
@@ -101,7 +101,7 @@ struct Player: View {
                         viewModel.music.didLike ?? false ? viewModel.unlike() : viewModel.like()
                         
                     }, label: {
-                        Image(systemName: viewModel.music.didLike ?? false ? "heart.fill" : "heart").foregroundColor(like ? .green :.white )
+                        Image(systemName: viewModel.music.didLike ?? false ? "heart.fill" : "heart").foregroundColor(.white )
                             .font(.system(size: 20)).animation(.default)
                     })
                 }.padding([.leading,.trailing,.top],20)
@@ -199,7 +199,15 @@ struct Player: View {
                     }.padding([.trailing,.leading , .bottom] , 20)
                 }
                 HStack{
-                    Image(systemName: "text.badge.plus").foregroundColor(.white)
+                    //Image(systemName: "text.badge.plus").foregroundColor(.white)
+                    
+                    Button(action: {
+                        playlist.toggle()
+                        viewModel.music.didInPlaylist ?? false ? viewModel.deleteFromPlaylist() : viewModel.addToPlaylist()
+                        
+                    }, label: {
+                        Image(systemName: viewModel.music.didInPlaylist ?? false ? "text.badge.plus" : "text.badge.plus").foregroundColor(playlist ? .green :.white ).animation(.default)
+                    })
                 }.padding()
             }.blur(radius: blur ? 30.0 : 0)
             
